@@ -20,13 +20,15 @@ const CreateMainTest = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/tests/main", // Ensure this is the correct endpoint
+        "https://lumiprep10-production-e6da.up.railway.app/tests/main", // Ensure this is the correct endpoint
         { testTitle, description },
         {
           headers: {
             Authorization: `Bearer ${token}`, // Ensure token is being sent
             "Content-Type": "application/json",
           },
+          withCredentials: false, // Optional unless you're managing cookies
+
         }
       );
       setSuccessMessage("Main test created successfully!");

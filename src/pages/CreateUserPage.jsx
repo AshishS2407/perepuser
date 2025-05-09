@@ -12,13 +12,15 @@ const CreateUserPage = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:3000/auth/create-user",
+        "https://lumiprep10-production-e6da.up.railway.app/auth/create-user",
         { name, password},
         {
           headers: {
             Authorization: `Bearer ${token}`, // Send the token in the header
             "Content-Type": "application/json",
           },
+          withCredentials: false, // Optional unless you're managing cookies
+
         }
       );
       setMessageData(res.data);

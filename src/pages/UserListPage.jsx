@@ -13,10 +13,13 @@ const UserListPage = () => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/auth/users', {
+        const response = await axios.get('https://lumiprep10-production-e6da.up.railway.app/auth/users', {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          withCredentials: false, // Optional unless you're managing cookies
+
         });
         setUsers(response.data.users);
       } catch (err) {

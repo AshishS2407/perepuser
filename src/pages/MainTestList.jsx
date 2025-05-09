@@ -17,11 +17,13 @@ const MainTestList = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:3000/tests/main-tests", {
+        const response = await axios.get("https://lumiprep10-production-e6da.up.railway.app/tests/main-tests", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
+          withCredentials: false, // Optional unless you're managing cookies
+
         });
 
         setTests(response.data);

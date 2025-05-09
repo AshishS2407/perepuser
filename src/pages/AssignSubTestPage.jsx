@@ -14,11 +14,13 @@ const AssignSubTestPage = () => {
     const fetchUnassignedTests = async () => {
       const token = localStorage.getItem("token");
       try {
-        const res = await axios.get("http://localhost:3000/tests/sub-tests", {
+        const res = await axios.get("https://lumiprep10-production-e6da.up.railway.app/tests/sub-tests", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
+          withCredentials: false, // Optional unless you're managing cookies
+
         });
 
         // Filter out subtests that are already assigned to this mainTestId
@@ -40,7 +42,7 @@ const AssignSubTestPage = () => {
     const token = localStorage.getItem("token");
     try {
       await axios.put(
-        "http://localhost:3000/tests/assign-sub-test",
+        "https://lumiprep10-production-e6da.up.railway.app/tests/assign-sub-test",
         {
           subTestId: selectedSubTest,
           mainTestId,
@@ -50,6 +52,7 @@ const AssignSubTestPage = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
+          withCredentials: false, // Optional unless you're managing cookies 
         }
       );
 
@@ -58,11 +61,13 @@ const AssignSubTestPage = () => {
       setSelectedSubTest("");
 
       // Refresh the available subtests after assignment
-      const res = await axios.get("http://localhost:3000/tests/sub-tests", {
+      const res = await axios.get("https://lumiprep10-production-e6da.up.railway.app/tests/sub-tests", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
+        withCredentials: false, // Optional unless you're managing cookies
+
       });
 
       const filtered = res.data.filter(
