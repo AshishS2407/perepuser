@@ -46,6 +46,21 @@ const AdminSidebar = () => {
           <Link to="/admin/add-explanations" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Add Explanations
           </Link>
+          <Link to="/admin/create-user" className="flex items-center gap-3 hover:text-[#a14bf4]">
+            <IoBookSharp /> Create User
+          </Link>
+          <Link to="/admin/create-main-test" className="flex items-center gap-3 hover:text-[#a14bf4]">
+            <IoBookSharp /> Create Main Test
+          </Link>
+          <Link to="/admin/main-test-list" className="flex items-center gap-3 hover:text-[#a14bf4]">
+            <IoBookSharp /> Assign Sub Test
+          </Link>
+          <Link to="/userlist" className="flex items-center gap-3 hover:text-[#a14bf4]">
+            <IoBookSharp /> User List
+          </Link>
+          {/* <Link to="/user/results" className="flex items-center gap-3 hover:text-[#a14bf4]">
+            <IoBookSharp /> User Result
+          </Link> */}
         </nav>
       </div>
       <div className="space-y-4">
@@ -61,3 +76,5 @@ const AdminSidebar = () => {
 };
 
 export default AdminSidebar;
+
+

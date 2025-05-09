@@ -9,6 +9,11 @@ import AddQuestionPage from "./pages/AddQuestionPage";
 import AddExplanationPage from "./pages/AddExplanationPage";
 import ExplanationPage from "./pages/ExplanationPage";
 import AddQuestionFormPage from "./pages/AddQuestionFormPage";
+import CreateUserPage from "./pages/CreateUserPage";
+import CreateMainTest from "./pages/CreateMainTest";
+import MainTestList from "./pages/MainTestList";
+import AssignSubTestPage from "./pages/AssignSubTestPage";
+import UserListPage from "./pages/UserListPage";
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -25,6 +30,11 @@ function App() {
         <Route path="/admin/add-questions" element={<AddQuestionPage/>} />
         <Route path="/explanation/:testId" element={<ExplanationPage />} />
         <Route path="/add-question/:id" element={<AddQuestionFormPage />} />
+        <Route path="/admin/create-user" element={<CreateUserPage />} />
+        <Route path="/admin/create-main-test" element={<CreateMainTest />} />
+        <Route path="/admin/main-test-list" element={<MainTestList />} />
+        <Route path="/assign-subtest/:testId" element={<AssignSubTestPage />} />
+        <Route path="/userlist" element={<UserListPage />} />
 
 
       </Routes>
