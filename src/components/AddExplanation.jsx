@@ -13,7 +13,7 @@ const AddExplanation = () => {
   useEffect(() => {
     const fetchTests = async () => {
       try {
-        const res = await axios.get('https://lumiprep10-production-e6da.up.railway.app/tests', {
+        const res = await axios.get('https://lumiprep10-production-e6da.up.railway.app/tests/sub-tests', {
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", },
           withCredentials: false,
 

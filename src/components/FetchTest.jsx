@@ -19,7 +19,7 @@ const FetchTest = () => {
         return;
       }
       try {
-        const res = await axios.get('https://lumiprep10-production-e6da.up.railway.app/tests', {
+        const res = await axios.get('https://lumiprep10-production-e6da.up.railway.app/sub-tests', {
           headers: { Authorization: `Bearer ${token}`,             "Content-Type": "application/json",
         },
         withCredentials: false, // Optional unless using cookies

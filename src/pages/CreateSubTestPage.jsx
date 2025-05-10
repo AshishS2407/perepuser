@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import AdminSidebarLayout from '../components/AdminSidebarLayout';
-import CreateTest from '../components/CreateTest';
+import CreateSubTest from '../components/CreateSubTest';
 
-const CreateTestPage = () => {
+const CreateSubTestPage = () => {
   return (
     <AdminSidebarLayout>
       <div className="flex items-center justify-center p-6">
@@ -22,11 +22,11 @@ const CreateTestPage = () => {
             Create a New Test
           </motion.h1>
 
-          <CreateTest />
+          <CreateSubTest />
         </motion.div>
       </div>
     </AdminSidebarLayout>
   );
 };
 
-export default CreateTestPage;
+export default CreateSubTestPage;
