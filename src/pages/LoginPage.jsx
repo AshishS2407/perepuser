@@ -31,9 +31,10 @@ const LoginPage = () => {
   
       const { token, user } = res.data;
   
-      // Block login for users with role "user"
-      if (user.role === "user") {
-        setError("Access denied for standard users.");
+      // Check if the role is one of the allowed roles
+      const allowedRoles = ["admin", "superadmin", "mentor"];
+      if (!allowedRoles.includes(user.role)) {
+        setError("Access denied. Unknown or unauthorized role.");
         return;
       }
   
@@ -42,6 +43,10 @@ const LoginPage = () => {
       console.log("Token stored:", localStorage.getItem("token"));
   
       if (user.role === "admin") {
+        navigate("/admin-dashboard");
+      } else if (user.role === "superadmin") {
+        navigate("/admin-dashboard");
+      } else if (user.role === "mentor") {
         navigate("/admin-dashboard");
       } else {
         setError("Access denied. Unknown role.");

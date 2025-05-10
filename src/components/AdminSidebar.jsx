@@ -61,6 +61,9 @@ const AdminSidebar = () => {
           {/* <Link to="/user/results" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> User Result
           </Link> */}
+          <Link to="/create-admin" className="flex items-center gap-3 hover:text-[#a14bf4]">
+            <IoBookSharp /> Create Admin
+          </Link>
         </nav>
       </div>
       <div className="space-y-4">

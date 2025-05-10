@@ -13,7 +13,7 @@ const AdminSidebarLayout = ({ children }) => {
   const username = user?.username || "Admin";
   const heading = location.pathname === "/admin-dashboard" 
     ? `Welcome ${username}!` 
-    : "Manage Tests and Questions";
+    : "Welcome Admin";
 
   useEffect(() => {
     const handleClickOutside = (event) => {

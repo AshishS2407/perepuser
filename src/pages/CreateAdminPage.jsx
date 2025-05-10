@@ -1,20 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AdminSidebarLayout from "../components/AdminSidebarLayout";
 
-const CreateUserPage = () => {
-  const [name, setName] = useState("");
+const CreateAdminPage = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [lumiId, setLumiId] = useState("");
+  const [role, setRole] = useState("admin"); // default role
   const [messageData, setMessageData] = useState(null);
+  const [userRole, setUserRole] = useState(null); // To hold the current user's role
   const token = localStorage.getItem("token");
 
-  const handleCreateUser = async (e) => {
+  // Check the current user's role on page load
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/auth/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserRole(res.data.role); // Store the current user's role
+      } catch (error) {
+        console.error("Error fetching user role", error);
+      }
+    };
+
+    if (token) {
+      fetchUserRole();
+    }
+  }, [token]);
+
+  // Handle form submission
+  const handleCreateAdmin = async (e) => {
     e.preventDefault();
     try {
+      // Make the POST request to the backend
       const res = await axios.post(
-        "https://lumiprep10-production-e6da.up.railway.app/auth/create-user",
-        { name, password, lumiId },
+        "https://lumiprep10-production-e6da.up.railway.app/auth/create-admin", // Update with the correct backend URL
+        { email, password, role },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -22,10 +45,10 @@ const CreateUserPage = () => {
           },
         }
       );
-      setMessageData(res.data);
-      setName("");
+      setMessageData(res.data); // Set response data for success
+      setEmail("");
       setPassword("");
-      setLumiId("");
+      setRole("admin");
     } catch (error) {
       setMessageData({
         error: error.response?.data?.message || "Failed to create user",
@@ -37,17 +60,29 @@ const CreateUserPage = () => {
     navigator.clipboard.writeText(text);
   };
 
+  // Restrict form submission if the user is a mentor
+  if (userRole === "mentor") {
+    return (
+      <AdminSidebarLayout>
+        <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-2xl font-semibold mb-4">Access Denied</h2>
+          <p className="text-center text-red-600">You do not have permission to create new admins.</p>
+        </div>
+      </AdminSidebarLayout>
+    );
+  }
+
   return (
     <AdminSidebarLayout>
       <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-2xl font-semibold mb-4">Create New User</h2>
-        <form onSubmit={handleCreateUser} className="space-y-4">
+        <h2 className="text-2xl font-semibold mb-4">Create New Admin</h2>
+        <form onSubmit={handleCreateAdmin} className="space-y-4">
           <input
-            type="text"
-            placeholder="Name"
+            type="email"
+            placeholder="Email"
             className="w-full px-4 py-2 border border-gray-300 rounded"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input
@@ -58,19 +93,21 @@ const CreateUserPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <input
-            type="text"
-            placeholder="Lumi ID (e.g., KN2024ABCD)"
+          <select
             className="w-full px-4 py-2 border border-gray-300 rounded"
-            value={lumiId}
-            onChange={(e) => setLumiId(e.target.value)}
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
             required
-          />
+          >
+            <option value="admin">Admin</option>
+            <option value="superadmin">Superadmin</option>
+            <option value="mentor">Mentor</option>
+          </select>
           <button
             type="submit"
             className="w-full bg-[#a14bf4] text-white py-2 rounded hover:bg-[#8e3de3]"
           >
-            Create User
+            Create Admin
           </button>
         </form>
 
@@ -81,10 +118,10 @@ const CreateUserPage = () => {
             ) : (
               <>
                 <p className="text-green-600 font-semibold text-center mb-2">
-                  User Created Successfully
+                  {role.charAt(0).toUpperCase() + role.slice(1)} Created Successfully
                 </p>
                 <div className="space-y-2">
-                  {["lumiId", "name", "password"].map((field) => (
+                  {["email", "role"].map((field) => (
                     <div
                       key={field}
                       className="flex items-center justify-between border px-3 py-2 rounded"
@@ -111,4 +148,4 @@ const CreateUserPage = () => {
   );
 };
 
-export default CreateUserPage;
+export default CreateAdminPage;
