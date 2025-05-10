@@ -15,6 +15,7 @@ import MainTestList from "./pages/MainTestList";
 import AssignSubTestPage from "./pages/AssignSubTestPage";
 import UserListPage from "./pages/UserListPage";
 import CreateAdminPage from "./pages/CreateAdminPage";
+import UserTestResultsPage from "./pages/UserTestResultsPage";
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -37,7 +38,7 @@ function App() {
         <Route path="/assign-subtest/:testId" element={<AssignSubTestPage />} />
         <Route path="/userlist" element={<UserListPage />} />
         <Route path="/create-admin" element={<CreateAdminPage />} />
-
+        <Route path="/users/:userId/results" element={<UserTestResultsPage />} />
 
 
       </Routes>
