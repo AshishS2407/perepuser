@@ -2,7 +2,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/AdminDashBoard";
-import CreateTestPage from "./pages/CreateTestPage";
 import UpdateTestPage from "./pages/UpdateTestPage";
 import FetchTestPage from "./pages/FetchTestPage";
 import AddQuestionPage from "./pages/AddQuestionPage";
