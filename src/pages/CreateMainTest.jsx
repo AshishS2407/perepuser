@@ -90,7 +90,7 @@ const CreateMainTest = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 sm:py-3 bg-[#a14bf4] text-white font-semibold rounded-md hover:bg-[#9a42d7] disabled:opacity-50 text-sm sm:text-base"
+            className="w-full py-2 sm:py-3 bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] hover:opacity-90 transition duration-300 text-white font-semibold rounded-md disabled:opacity-50 text-sm sm:text-base"
           >
             {loading ? "Creating..." : "Create Test"}
           </button>

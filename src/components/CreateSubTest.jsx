@@ -186,7 +186,7 @@ const CreateSubTestPage = () => {
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full sm:w-auto"
+          className="bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] text-white px-4 py-2 rounded-md hover:opacity-90 transition duration-300 w-full sm:w-auto"
         >
           Create Sub Test
         </button>

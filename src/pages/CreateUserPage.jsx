@@ -68,7 +68,7 @@ const CreateUserPage = () => {
           />
           <button
             type="submit"
-            className="w-full bg-[#a14bf4] text-white py-2 rounded hover:bg-[#8e3de3] transition duration-200"
+            className="w-full bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] text-white py-2 rounded-md hover:opacity-90 transition duration-300"
           >
             Create User
           </button>

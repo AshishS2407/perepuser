@@ -31,14 +31,21 @@ const AdminSidebar = () => {
           Lumi <span className="text-gray-700">Prep</span>
         </h1>
         <nav className="space-y-6 text-gray-700">
+          
           <Link to="/admin-dashboard" className="flex items-center gap-3 font-semibold hover:text-[#a14bf4]">
             <MdOutlineSpaceDashboard /> Admin Dashboard
+          </Link>
+          <Link to="/admin/create-main-test" className="flex items-center gap-3 hover:text-[#a14bf4]">
+            <IoBookSharp /> Create Main Test
           </Link>
           <Link to="/admin/create-test" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Create Sub Test
           </Link>
           <Link to="/admin/update-test" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Update Test
+          </Link>
+          <Link to="/admin/main-test-list" className="flex items-center gap-3 hover:text-[#a14bf4]">
+            <IoBookSharp /> Assign Sub Test
           </Link>
           <Link to="/admin/add-questions" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Add Questions
@@ -49,12 +56,8 @@ const AdminSidebar = () => {
           <Link to="/admin/create-user" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Create User
           </Link>
-          <Link to="/admin/create-main-test" className="flex items-center gap-3 hover:text-[#a14bf4]">
-            <IoBookSharp /> Create Main Test
-          </Link>
-          <Link to="/admin/main-test-list" className="flex items-center gap-3 hover:text-[#a14bf4]">
-            <IoBookSharp /> Assign Sub Test
-          </Link>
+          
+          
           <Link to="/userlist" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> User List
           </Link>

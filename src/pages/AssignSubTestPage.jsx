@@ -118,7 +118,7 @@ const AssignSubTestToMain = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 sm:py-3 text-sm sm:text-base bg-[#a14bf4] text-white font-semibold rounded-md hover:bg-[#9a42d7] disabled:opacity-50 transition-all duration-200"
+            className="w-full py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] hover:opacity-90 transition duration-300 text-white font-semibold rounded-md disabled:opacity-50 transition-all duration-200"
           >
             {loading ? "Assigning..." : "Assign Sub Test"}
           </button>

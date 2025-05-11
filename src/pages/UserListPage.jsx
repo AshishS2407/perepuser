@@ -77,7 +77,7 @@ const UserListPage = () => {
                   <td className="py-2 px-2 sm:px-4 border text-center">
                     <button
                       onClick={() => handleViewResults(user._id)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs sm:text-sm"
+                      className="bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] hover:opacity-90 transition duration-300 text-white px-3 py-1 rounded-md text-xs sm:text-sm"
                     >
                       View Results
                     </button>
