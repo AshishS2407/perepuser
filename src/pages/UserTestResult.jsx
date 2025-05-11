@@ -11,7 +11,7 @@ const UserTestResults = ({ userId }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate("/"); // redirect to login if token not found
+      navigate("/");
       return;
     }
 
@@ -23,7 +23,6 @@ const UserTestResults = ({ userId }) => {
       .then(res => setResults(res.data))
       .catch(err => {
         console.error(err);
-        // Handle unauthorized access
         if (err.response?.status === 401) {
           localStorage.removeItem("token");
           navigate("/");
@@ -36,72 +35,76 @@ const UserTestResults = ({ userId }) => {
   };
 
   return (
-    <>
     <AdminSidebarLayout>
-    <div className="p-4 overflow-x-auto">
-      <h2 className="text-xl font-bold mb-4">User Test Results</h2>
-      <table className="min-w-full border border-gray-300 text-sm">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="border px-4 py-2">Test Title</th>
-            <th className="border px-4 py-2">Description</th>
-            <th className="border px-4 py-2">Submitted At</th>
-            <th className="border px-4 py-2">Total Qs</th>
-            <th className="border px-4 py-2">Correct</th>
-            <th className="border px-4 py-2">Score %</th>
-            <th className="border px-4 py-2">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {results.map((result, i) => (
-            <React.Fragment key={result._id}>
-              <tr className="bg-white hover:bg-gray-50">
-                <td className="border px-4 py-2">{result.testTitle}</td>
-                <td className="border px-4 py-2">{result.testDescription}</td>
-                <td className="border px-4 py-2">{new Date(result.submittedAt).toLocaleString()}</td>
-                <td className="border px-4 py-2">{result.totalQuestions}</td>
-                <td className="border px-4 py-2">{result.correctAnswers}</td>
-                <td className="border px-4 py-2 font-semibold">{result.scorePercentage}%</td>
-                <td className="border px-4 py-2 text-blue-600 cursor-pointer underline" onClick={() => toggleRow(i)}>
-                  {expandedRows[i] ? 'Hide' : 'View'}
-                </td>
+      <div className="p-4 overflow-x-auto w-full">
+        <h2 className="text-xl font-bold mb-4">User Test Results</h2>
+        <div className="w-full overflow-x-auto">
+          <table className="w-full text-sm border border-gray-300">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="border px-2 py-2 whitespace-nowrap">Test Title</th>
+                <th className="border px-2 py-2 whitespace-nowrap">Description</th>
+                <th className="border px-2 py-2 whitespace-nowrap">Submitted At</th>
+                <th className="border px-2 py-2 whitespace-nowrap">Total Qs</th>
+                <th className="border px-2 py-2 whitespace-nowrap">Correct</th>
+                <th className="border px-2 py-2 whitespace-nowrap">Score %</th>
+                <th className="border px-2 py-2 whitespace-nowrap">Details</th>
               </tr>
-              {expandedRows[i] && (
-                <tr>
-                  <td colSpan="7" className="border px-4 py-2 bg-gray-50">
-                    <table className="w-full text-left text-xs">
-                      <thead className="bg-gray-100">
-                        <tr>
-                          <th className="border px-2 py-1">Question</th>
-                          <th className="border px-2 py-1">Selected</th>
-                          <th className="border px-2 py-1">Correct</th>
-                          <th className="border px-2 py-1">Correct?</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {result.details.map((q) => (
-                          <tr key={q.questionId}>
-                            <td className="border px-2 py-1">{q.questionText}</td>
-                            <td className="border px-2 py-1 text-center">{q.selectedOptionIndex ?? 'N/A'}</td>
-                            <td className="border px-2 py-1 text-center">{q.correctOptionIndex}</td>
-                            <td className={`border px-2 py-1 text-center font-bold ${q.isCorrect ? 'text-green-600' : 'text-red-600'}`}>
-                              {q.isCorrect ? 'Yes' : 'No'}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              )}
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
-    </div>
+            </thead>
+            <tbody>
+              {results.map((result, i) => (
+                <React.Fragment key={result._id}>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="border px-2 py-2">{result.testTitle}</td>
+                    <td className="border px-2 py-2">{result.testDescription}</td>
+                    <td className="border px-2 py-2 whitespace-nowrap">{new Date(result.submittedAt).toLocaleString()}</td>
+                    <td className="border px-2 py-2 text-center">{result.totalQuestions}</td>
+                    <td className="border px-2 py-2 text-center">{result.correctAnswers}</td>
+                    <td className="border px-2 py-2 font-semibold text-center">{result.scorePercentage}%</td>
+                    <td
+                      className="border px-2 py-2 text-center text-blue-600 cursor-pointer underline"
+                      onClick={() => toggleRow(i)}
+                    >
+                      {expandedRows[i] ? 'Hide' : 'View'}
+                    </td>
+                  </tr>
+                  {expandedRows[i] && (
+                    <tr>
+                      <td colSpan="7" className="border px-2 py-2 bg-gray-50">
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-xs text-left border border-gray-200">
+                            <thead className="bg-gray-100">
+                              <tr>
+                                <th className="border px-2 py-1">Question</th>
+                                <th className="border px-2 py-1 text-center">Selected</th>
+                                <th className="border px-2 py-1 text-center">Correct</th>
+                                <th className="border px-2 py-1 text-center">Correct?</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {result.details.map((q) => (
+                                <tr key={q.questionId}>
+                                  <td className="border px-2 py-1">{q.questionText}</td>
+                                  <td className="border px-2 py-1 text-center">{q.selectedOptionIndex ?? 'N/A'}</td>
+                                  <td className="border px-2 py-1 text-center">{q.correctOptionIndex}</td>
+                                  <td className={`border px-2 py-1 text-center font-bold ${q.isCorrect ? 'text-green-600' : 'text-red-600'}`}>
+                                    {q.isCorrect ? 'Yes' : 'No'}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </AdminSidebarLayout>
-    </>
-
   );
 };
 

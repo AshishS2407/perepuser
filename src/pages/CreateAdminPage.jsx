@@ -5,38 +5,32 @@ import AdminSidebarLayout from "../components/AdminSidebarLayout";
 const CreateAdminPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("admin"); // default role
+  const [role, setRole] = useState("admin");
   const [messageData, setMessageData] = useState(null);
-  const [userRole, setUserRole] = useState(null); // To hold the current user's role
+  const [userRole, setUserRole] = useState(null);
+
   const token = localStorage.getItem("token");
 
-  // Check the current user's role on page load
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
         const res = await axios.get("http://localhost:3000/auth/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-        setUserRole(res.data.role); // Store the current user's role
+        setUserRole(res.data.role);
       } catch (error) {
         console.error("Error fetching user role", error);
       }
     };
 
-    if (token) {
-      fetchUserRole();
-    }
+    if (token) fetchUserRole();
   }, [token]);
 
-  // Handle form submission
   const handleCreateAdmin = async (e) => {
     e.preventDefault();
     try {
-      // Make the POST request to the backend
       const res = await axios.post(
-        "https://lumiprep10-production-e6da.up.railway.app/auth/create-admin", // Update with the correct backend URL
+        "https://lumiprep10-production-e6da.up.railway.app/auth/create-admin",
         { email, password, role },
         {
           headers: {
@@ -45,7 +39,7 @@ const CreateAdminPage = () => {
           },
         }
       );
-      setMessageData(res.data); // Set response data for success
+      setMessageData(res.data);
       setEmail("");
       setPassword("");
       setRole("admin");
@@ -60,12 +54,11 @@ const CreateAdminPage = () => {
     navigator.clipboard.writeText(text);
   };
 
-  // Restrict form submission if the user is a mentor
   if (userRole === "mentor") {
     return (
       <AdminSidebarLayout>
-        <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
-          <h2 className="text-2xl font-semibold mb-4">Access Denied</h2>
+        <div className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6 my-6 sm:my-10">
+          <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">Access Denied</h2>
           <p className="text-center text-red-600">You do not have permission to create new admins.</p>
         </div>
       </AdminSidebarLayout>
@@ -74,13 +67,14 @@ const CreateAdminPage = () => {
 
   return (
     <AdminSidebarLayout>
-      <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-2xl font-semibold mb-4">Create New Admin</h2>
+      <div className="w-full max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6 my-6 sm:my-10">
+        <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">Create New Admin</h2>
+
         <form onSubmit={handleCreateAdmin} className="space-y-4">
           <input
             type="email"
             placeholder="Email"
-            className="w-full px-4 py-2 border border-gray-300 rounded"
+            className="w-full px-4 py-2 border border-gray-300 rounded text-sm sm:text-base"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -88,13 +82,13 @@ const CreateAdminPage = () => {
           <input
             type="password"
             placeholder="Password"
-            className="w-full px-4 py-2 border border-gray-300 rounded"
+            className="w-full px-4 py-2 border border-gray-300 rounded text-sm sm:text-base"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
           <select
-            className="w-full px-4 py-2 border border-gray-300 rounded"
+            className="w-full px-4 py-2 border border-gray-300 rounded text-sm sm:text-base"
             value={role}
             onChange={(e) => setRole(e.target.value)}
             required
@@ -103,16 +97,17 @@ const CreateAdminPage = () => {
             <option value="superadmin">Superadmin</option>
             <option value="mentor">Mentor</option>
           </select>
+
           <button
             type="submit"
-            className="w-full bg-[#a14bf4] text-white py-2 rounded hover:bg-[#8e3de3]"
+            className="w-full bg-[#a14bf4] text-white py-2 rounded hover:bg-[#8e3de3] text-sm sm:text-base"
           >
             Create Admin
           </button>
         </form>
 
         {messageData && (
-          <div className="mt-6 bg-gray-50 p-4 rounded border">
+          <div className="mt-6 bg-gray-50 p-4 rounded border text-sm sm:text-base">
             {messageData.error ? (
               <p className="text-red-600 text-center">{messageData.error}</p>
             ) : (
@@ -124,10 +119,10 @@ const CreateAdminPage = () => {
                   {["email", "role"].map((field) => (
                     <div
                       key={field}
-                      className="flex items-center justify-between border px-3 py-2 rounded"
+                      className="flex items-center justify-between border px-3 py-2 rounded flex-wrap sm:flex-nowrap"
                     >
-                      <span className="font-medium capitalize">{field}: </span>
-                      <span className="text-gray-700 font-mono truncate">
+                      <span className="font-medium capitalize w-full sm:w-auto">{field}:</span>
+                      <span className="text-gray-700 font-mono break-all w-full sm:w-auto">
                         {messageData[field]}
                       </span>
                       <button

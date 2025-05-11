@@ -18,7 +18,7 @@ const Explanation = () => {
     const fetchQuestions = async () => {
       try {
         const res = await axios.get(`https://lumiprep10-production-e6da.up.railway.app/tests/${testId}/questions`, {
-          headers: { Authorization: `Bearer ${token}` , "Content-Type": "application/json",},
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
           withCredentials: false,
         });
 
@@ -42,16 +42,17 @@ const Explanation = () => {
       const res = await axios.put(
         `https://lumiprep10-production-e6da.up.railway.app/tests/${testId}/questions/${questionId}/explanation`,
         { explanation: newExplanation },
-        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-        withCredentials: false,
-      }
+        {
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          withCredentials: false,
+        }
       );
       setMessage(res.data.message);
       setNewExplanation('');
       setVisibleExplanationForm(null);
 
       const refresh = await axios.get(`https://lumiprep10-production-e6da.up.railway.app/tests/${testId}/questions`, {
-        headers: { Authorization: `Bearer ${token}` , "Content-Type": "application/json"},
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         withCredentials: false,
       });
       setQuestions(refresh.data.questions || refresh.data || []);
@@ -75,97 +76,104 @@ const Explanation = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto mt-10 p-6 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Questions for Test</h2>
-      {error && <div className="text-red-600 mb-2">{error}</div>}
-      {message && <div className="text-green-600 mb-2">{message}</div>}
+    <div className="max-w-5xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Questions for Test</h2>
+
+      {error && <div className="text-red-600 mb-4 text-center">{error}</div>}
+      {message && <div className="text-green-600 mb-4 text-center">{message}</div>}
 
       {questions.length === 0 ? (
-        <p className="text-gray-500">No questions found.</p>
+        <p className="text-gray-500 text-center">No questions found.</p>
       ) : (
         <>
-          {currentQuestions.map((q) => (
-            <div key={q._id} className="mb-6 border-b pb-4">
-              <p className="font-medium">{q.questionText}</p>
-              <ul className="list-disc ml-6 mt-1">
-                {q.options.map((opt, idx) => (
-                  <li
-                    key={idx}
-                    className={opt.isCorrect ? 'text-green-600 font-semibold' : ''}
-                  >
-                    {opt.text}
-                  </li>
-                ))}
-              </ul>
-
-              <p className="mt-1 text-sm text-gray-500">
-                {q.explanation ? (
-                  <span className="text-green-600">Explanation: {q.explanation}</span>
-                ) : (
-                  <span className="text-red-500">No explanation added</span>
-                )}
-              </p>
-
-              {visibleExplanationForm === q._id ? (
-                <div className="mt-2">
-                  <textarea
-                    className="w-full p-2 border rounded placeholder:text-gray-400"
-                    rows="3"
-                    placeholder="Enter explanation"
-                    value={newExplanation}
-                    onChange={(e) => setNewExplanation(e.target.value)}
-                  />
-                  <div className="flex gap-2 mt-2">
-                    <button
-                      className="bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF]  text-white px-4 py-1 rounded"
-                      onClick={() => handleAddExplanation(q._id)}
+          <div className="space-y-8">
+            {currentQuestions.map((q) => (
+              <div key={q._id} className="border border-gray-200 rounded-lg p-4 shadow-sm">
+                <p className="text-lg font-semibold text-gray-700">{q.questionText}</p>
+                <ul className="list-disc ml-6 mt-2 text-gray-600">
+                  {q.options.map((opt, idx) => (
+                    <li
+                      key={idx}
+                      className={opt.isCorrect ? 'text-green-600 font-semibold' : ''}
                     >
-                      Save
-                    </button>
-                    <button
-                      className="bg-gray-400 text-white px-4 py-1 rounded"
-                      onClick={() => setVisibleExplanationForm(null)}
-                    >
-                      Cancel
-                    </button>
+                      {opt.text}
+                    </li>
+                  ))}
+                </ul>
+
+                <p className="mt-3 text-sm">
+                  {q.explanation ? (
+                    <span className="text-green-600">Explanation: {q.explanation}</span>
+                  ) : (
+                    <span className="text-red-500">No explanation added</span>
+                  )}
+                </p>
+
+                {visibleExplanationForm === q._id ? (
+                  <div className="mt-3">
+                    <textarea
+                      className="w-full p-3 border border-gray-300 rounded-md placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
+                      rows="3"
+                      placeholder="Enter explanation"
+                      value={newExplanation}
+                      onChange={(e) => setNewExplanation(e.target.value)}
+                    />
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      <button
+                        className="bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] text-white px-5 py-2 rounded hover:opacity-90 transition"
+                        onClick={() => handleAddExplanation(q._id)}
+                      >
+                        Save
+                      </button>
+                      <button
+                        className="bg-gray-400 text-white px-5 py-2 rounded hover:bg-gray-500 transition"
+                        onClick={() => setVisibleExplanationForm(null)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <button
-                  className="mt-2 text-sm text-blue-600 underline"
-                  onClick={() => {
-                    setVisibleExplanationForm(q._id);
-                    setNewExplanation(q.explanation || '');
-                  }}
-                >
-                  {q.explanation ? 'Edit Explanation' : 'Add Explanation'}
-                </button>
-              )}
-            </div>
-          ))}
+                ) : (
+                  <button
+                    className="mt-2 text-sm text-blue-600 underline hover:text-blue-800 transition"
+                    onClick={() => {
+                      setVisibleExplanationForm(q._id);
+                      setNewExplanation(q.explanation || '');
+                    }}
+                  >
+                    {q.explanation ? 'Edit Explanation' : 'Add Explanation'}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
 
           {/* Pagination Controls */}
           {questions.length > questionsPerPage && (
-            <div className="mt-6 flex justify-center items-center space-x-6">
+            <div className="mt-10 flex justify-center items-center gap-6">
               <button
                 onClick={handlePrev}
                 disabled={currentPage === 1}
-                className={`px-3 py-1 text-lg rounded ${
-                  currentPage === 1 ? 'text-gray-300' : 'text-gray-600 hover:text-black'
+                className={`px-4 py-2 rounded-full border ${
+                  currentPage === 1
+                    ? 'text-gray-300 border-gray-200 cursor-not-allowed'
+                    : 'text-gray-600 border-gray-400 hover:text-black hover:border-black'
                 }`}
               >
                 &lt;
               </button>
 
-              <span className="text-gray-700 font-medium">
+              <span className="text-gray-700 font-medium text-lg">
                 {currentPage} / {totalPages}
               </span>
 
               <button
                 onClick={handleNext}
                 disabled={currentPage === totalPages}
-                className={`px-3 py-1 text-lg rounded ${
-                  currentPage === totalPages ? 'text-gray-300' : 'text-gray-600 hover:text-black'
+                className={`px-4 py-2 rounded-full border ${
+                  currentPage === totalPages
+                    ? 'text-gray-300 border-gray-200 cursor-not-allowed'
+                    : 'text-gray-600 border-gray-400 hover:text-black hover:border-black'
                 }`}
               >
                 &gt;

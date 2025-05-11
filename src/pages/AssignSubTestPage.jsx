@@ -1,120 +1,131 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import AdminSidebarLayout from "../components/AdminSidebarLayout";
 
-const AssignSubTestPage = () => {
-  const { testId: mainTestId } = useParams();
-  const [availableTests, setAvailableTests] = useState([]);
-  const [selectedSubTest, setSelectedSubTest] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+const AssignSubTestToMain = () => {
+  const [mainTests, setMainTests] = useState([]);
+  const [subTests, setSubTests] = useState([]);
+  const [mainTestId, setMainTestId] = useState("");
+  const [subTestId, setSubTestId] = useState("");
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const fetchUnassignedTests = async () => {
-      const token = localStorage.getItem("token");
+    const fetchTests = async () => {
       try {
-        const res = await axios.get("https://lumiprep10-production-e6da.up.railway.app/tests/sub-tests", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          withCredentials: false, // Optional unless you're managing cookies
-
-        });
-
-        // Filter out subtests that are already assigned to this mainTestId
-        const filtered = res.data.filter(
-          (test) =>
-            !test.parentTestIds || !test.parentTestIds.includes(mainTestId)
-        );
-
-        setAvailableTests(filtered);
+        const [mainRes, subRes] = await Promise.all([
+          axios.get("https://lumiprep10-production-e6da.up.railway.app/tests/main-tests", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get("https://lumiprep10-production-e6da.up.railway.app/tests/sub-tests", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
+        setMainTests(mainRes.data);
+        setSubTests(subRes.data);
       } catch (err) {
-        setError("Failed to fetch available subtests.");
+        console.error("Error fetching tests", err);
+        setError("Failed to load test data.");
       }
     };
 
-    fetchUnassignedTests();
-  }, [mainTestId]);
+    fetchTests();
+  }, [token]);
 
-  const handleAssign = async () => {
-    const token = localStorage.getItem("token");
+  const handleAssign = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccessMessage(null);
+    setLoading(true);
+
     try {
-      await axios.put(
-        "https://lumiprep10-production-e6da.up.railway.app/tests/assign-sub-test",
-        {
-          subTestId: selectedSubTest,
-          mainTestId,
-        },
+      const res = await axios.post(
+        "https://lumiprep10-production-e6da.up.railway.app/tests/assign-subtest",
+        { subTestId, mainTestId },
         {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          withCredentials: false, // Optional unless you're managing cookies 
         }
       );
 
-      setMessage("Subtest assigned successfully!");
-      setError("");
-      setSelectedSubTest("");
-
-      // Refresh the available subtests after assignment
-      const res = await axios.get("https://lumiprep10-production-e6da.up.railway.app/tests/sub-tests", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        withCredentials: false, // Optional unless you're managing cookies
-
-      });
-
-      const filtered = res.data.filter(
-        (test) =>
-          !test.parentTestIds || !test.parentTestIds.includes(mainTestId)
-      );
-      setAvailableTests(filtered);
+      setSuccessMessage(res.data.message || "Sub test assigned successfully!");
+      setSubTestId("");
+      setMainTestId("");
     } catch (err) {
-      setError(err.response?.data?.message || "Assignment failed.");
-      setMessage("");
+      console.error("Error assigning sub test:", err);
+      setError(err.response?.data?.message || "Failed to assign sub test.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <AdminSidebarLayout>
-      <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-6">Assign Subtest</h2>
+      <div className="max-w-3xl mx-auto p-4 sm:p-6 md:p-8 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-6 text-center sm:text-left">
+          Assign Sub Test to Main Test
+        </h2>
 
-        {message && <div className="text-green-600 mb-4">{message}</div>}
-        {error && <div className="text-red-600 mb-4">{error}</div>}
+        <form onSubmit={handleAssign} className="space-y-6">
+          <div>
+            <label htmlFor="subTest" className="block text-base sm:text-lg font-medium text-gray-700">
+              Select Sub Test
+            </label>
+            <select
+              id="subTest"
+              value={subTestId}
+              onChange={(e) => setSubTestId(e.target.value)}
+              required
+              className="w-full mt-2 p-2 sm:p-3 border border-gray-300 rounded-md text-sm sm:text-base"
+            >
+              <option value="">-- Select Sub Test --</option>
+              {subTests.map((test) => (
+                <option key={test._id} value={test._id}>
+                  {test.testTitle}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className="mb-4">
-          <label className="block mb-2 text-gray-700">Select Subtest:</label>
-          <select
-            value={selectedSubTest}
-            onChange={(e) => setSelectedSubTest(e.target.value)}
-            className="w-full p-2 border rounded-md"
+          <div>
+            <label htmlFor="mainTest" className="block text-base sm:text-lg font-medium text-gray-700">
+              Select Main Test
+            </label>
+            <select
+              id="mainTest"
+              value={mainTestId}
+              onChange={(e) => setMainTestId(e.target.value)}
+              required
+              className="w-full mt-2 p-2 sm:p-3 border border-gray-300 rounded-md text-sm sm:text-base"
+            >
+              <option value="">-- Select Main Test --</option>
+              {mainTests.map((test) => (
+                <option key={test._id} value={test._id}>
+                  {test.testTitle}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-2 sm:py-3 text-sm sm:text-base bg-[#a14bf4] text-white font-semibold rounded-md hover:bg-[#9a42d7] disabled:opacity-50 transition-all duration-200"
           >
-            <option value="">-- Select a subtest --</option>
-            {availableTests.map((test) => (
-              <option key={test._id} value={test._id}>
-                {test.testTitle}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <button
-          onClick={handleAssign}
-          disabled={!selectedSubTest}
-          className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-        >
-          Assign Subtest
-        </button>
+            {loading ? "Assigning..." : "Assign Sub Test"}
+          </button>
+        </form>
       </div>
     </AdminSidebarLayout>
   );
 };
 
-export default AssignSubTestPage;
+export default AssignSubTestToMain;

@@ -52,9 +52,9 @@ const AdminSidebar = () => {
           <Link to="/admin/create-main-test" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Create Main Test
           </Link>
-          {/* <Link to="/admin/main-test-list" className="flex items-center gap-3 hover:text-[#a14bf4]">
+          <Link to="/admin/main-test-list" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Assign Sub Test
-          </Link> */}
+          </Link>
           <Link to="/userlist" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> User List
           </Link>

@@ -39,13 +39,13 @@ const CreateUserPage = () => {
 
   return (
     <AdminSidebarLayout>
-      <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-2xl font-semibold mb-4">Create New User</h2>
-        <form onSubmit={handleCreateUser} className="space-y-4">
+      <div className="max-w-xl w-full mx-auto mt-10 p-6 bg-white shadow-xl rounded-xl sm:px-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Create New User</h2>
+        <form onSubmit={handleCreateUser} className="space-y-5">
           <input
             type="text"
             placeholder="Name"
-            className="w-full px-4 py-2 border border-gray-300 rounded"
+            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#a14bf4]"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -53,7 +53,7 @@ const CreateUserPage = () => {
           <input
             type="password"
             placeholder="Password"
-            className="w-full px-4 py-2 border border-gray-300 rounded"
+            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#a14bf4]"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -61,44 +61,44 @@ const CreateUserPage = () => {
           <input
             type="text"
             placeholder="Lumi ID (e.g., KN2024ABCD)"
-            className="w-full px-4 py-2 border border-gray-300 rounded"
+            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#a14bf4]"
             value={lumiId}
             onChange={(e) => setLumiId(e.target.value)}
             required
           />
           <button
             type="submit"
-            className="w-full bg-[#a14bf4] text-white py-2 rounded hover:bg-[#8e3de3]"
+            className="w-full bg-[#a14bf4] text-white py-2 rounded hover:bg-[#8e3de3] transition duration-200"
           >
             Create User
           </button>
         </form>
 
         {messageData && (
-          <div className="mt-6 bg-gray-50 p-4 rounded border">
+          <div className="mt-8 bg-gray-50 p-4 rounded border border-gray-200">
             {messageData.error ? (
-              <p className="text-red-600 text-center">{messageData.error}</p>
+              <p className="text-red-600 text-center font-medium">{messageData.error}</p>
             ) : (
               <>
-                <p className="text-green-600 font-semibold text-center mb-2">
+                <p className="text-green-600 font-semibold text-center mb-3">
                   User Created Successfully
                 </p>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {["lumiId", "name", "password"].map((field) => (
                     <div
                       key={field}
-                      className="flex items-center justify-between border px-3 py-2 rounded"
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border px-4 py-2 rounded bg-white shadow-sm"
                     >
-                      <span className="font-medium capitalize">{field}: </span>
-                      <span className="text-gray-700 font-mono truncate">
-                        {messageData[field]}
-                      </span>
-                      <button
-                        onClick={() => handleCopy(messageData[field])}
-                        className="text-sm text-blue-600 hover:underline ml-2"
-                      >
-                        Copy
-                      </button>
+                      <span className="font-medium capitalize">{field}:</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-700 font-mono truncate max-w-xs">{messageData[field]}</span>
+                        <button
+                          onClick={() => handleCopy(messageData[field])}
+                          className="text-sm text-blue-600 hover:underline"
+                        >
+                          Copy
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>

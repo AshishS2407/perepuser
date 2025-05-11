@@ -45,40 +45,39 @@ const UserListPage = () => {
     navigate(`/users/${userId}/results`);
   };
 
-
   return (
     <AdminSidebarLayout>
-      <div className="container mx-auto p-4">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold">User List</h1>
+      <div className="w-full px-2 sm:px-4 py-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 sm:gap-0">
+          <h1 className="text-xl sm:text-2xl font-bold">User List</h1>
           <button
             onClick={exportToExcel}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-sm sm:text-base"
           >
             Export to Excel
           </button>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border text-sm">
+          <table className="w-full bg-white border text-xs sm:text-sm">
             <thead>
               <tr className="bg-gray-100">
-                <th className="py-2 px-4 border">Sl No.</th>
-                <th className="py-2 px-4 border">LUMI ID</th>
-                <th className="py-2 px-4 border">Name</th>
-                <th className="py-2 px-4 border">Actions</th>
+                <th className="py-2 px-2 sm:px-4 border text-center">Sl No.</th>
+                <th className="py-2 px-2 sm:px-4 border text-center">LUMI ID</th>
+                <th className="py-2 px-2 sm:px-4 border text-left">Name</th>
+                <th className="py-2 px-2 sm:px-4 border text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user, index) => (
                 <tr key={user._id} className="hover:bg-gray-50">
-                  <td className="py-2 px-4 border text-center">{index + 1}</td>
-                  <td className="py-2 px-4 border text-center">{user.lumiId}</td>
-                  <td className="py-2 px-4 border">{user.name}</td>
-                  <td className="py-2 px-4 border text-center">
+                  <td className="py-2 px-2 sm:px-4 border text-center">{index + 1}</td>
+                  <td className="py-2 px-2 sm:px-4 border text-center">{user.lumiId}</td>
+                  <td className="py-2 px-2 sm:px-4 border">{user.name}</td>
+                  <td className="py-2 px-2 sm:px-4 border text-center">
                     <button
                       onClick={() => handleViewResults(user._id)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs sm:text-sm"
                     >
                       View Results
                     </button>

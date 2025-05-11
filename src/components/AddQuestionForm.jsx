@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import AdminSidebar from '../components/AdminSidebar';
 import { motion } from 'framer-motion';
 
 const AddQuestionForm = () => {
@@ -24,9 +23,11 @@ const AddQuestionForm = () => {
     const fetchTest = async () => {
       try {
         const res = await axios.get(`https://lumiprep10-production-e6da.up.railway.app/tests/${id}`, {
-          headers: { Authorization: `Bearer ${token}`,               "Content-Type": "application/json"
-        },
-        withCredentials: false, // Optional unless using cookies
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          withCredentials: false,
         });
         setTest(res.data);
       } catch (err) {
@@ -60,9 +61,13 @@ const AddQuestionForm = () => {
       const res = await axios.post(
         `https://lumiprep10-production-e6da.up.railway.app/tests/${id}/questions`,
         { questionText, options },
-        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } ,
-        withCredentials: false,
-      }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          withCredentials: false,
+        }
       );
       setMessage(res.data.message || 'Question added successfully');
       setQuestionText('');
@@ -78,56 +83,60 @@ const AddQuestionForm = () => {
   };
 
   return (
+    <div className="flex flex-col items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-6 sm:p-10"
+      >
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
+          Add Question to: {test?.testTitle || 'Loading...'}
+        </h1>
 
-      <div className="flex-1 flex items-center justify-center p-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-10"
-        >
-          <h1 className="text-3xl font-bold text-center mb-6">
-            Add Question to: {test?.testTitle || 'Loading...'}
-          </h1>
+        {error && <div className="text-red-600 mb-2 text-sm">{error}</div>}
+        {message && <div className="text-green-600 mb-2 text-sm">{message}</div>}
 
-          {error && <div className="text-red-600 mb-2">{error}</div>}
-          {message && <div className="text-green-600 mb-2">{message}</div>}
+        <input
+          type="text"
+          placeholder="Enter question"
+          value={questionText}
+          onChange={(e) => setQuestionText(e.target.value)}
+          className="w-full border p-2 rounded mb-4 placeholder:text-gray-400 text-sm sm:text-base"
+        />
 
-          <input
-            type="text"
-            placeholder="Enter question"
-            value={questionText}
-            onChange={(e) => setQuestionText(e.target.value)}
-            className="w-full border p-2 rounded mb-4 placeholder:text-gray-400 "
-          />
-
-          {options.map((opt, idx) => (
-            <div key={idx} className="flex items-center space-x-2 mb-2 ">
-              <input
-                type="text"
-                placeholder={`Option ${idx + 1}`}
-                value={opt.text}
-                onChange={(e) => handleOptionChange(idx, e.target.value)}
-                className="w-full border p-2 rounded placeholder:text-gray-400"
-              />
+        {options.map((opt, idx) => (
+          <div
+            key={idx}
+            className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-3"
+          >
+            <input
+              type="text"
+              placeholder={`Option ${idx + 1}`}
+              value={opt.text}
+              onChange={(e) => handleOptionChange(idx, e.target.value)}
+              className="flex-1 border p-2 rounded placeholder:text-gray-400 w-full text-sm sm:text-base"
+            />
+            <div className="flex items-center gap-1 mt-1 sm:mt-0">
               <input
                 type="radio"
                 name="correctOption"
                 checked={opt.isCorrect}
                 onChange={() => handleCorrectChange(idx)}
               />
-              <label>Correct</label>
+              <label className="text-sm">Correct</label>
             </div>
-          ))}
+          </div>
+        ))}
 
-<button
-  className="mt-6 px-5 py-2 text-white font-medium rounded bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] hover:opacity-90 transition"
-  onClick={handleSubmit}
->
-  Submit Question
-</button>
-        </motion.div>
-      </div>
+        <button
+          className="mt-6 w-full sm:w-auto px-5 py-2 text-white font-medium rounded bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] hover:opacity-90 transition"
+          onClick={handleSubmit}
+        >
+          Submit Question
+        </button>
+      </motion.div>
+    </div>
   );
 };
 

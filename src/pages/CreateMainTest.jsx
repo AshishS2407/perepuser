@@ -26,8 +26,6 @@ const CreateMainTest = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          withCredentials: false, // Optional unless you're managing cookies
-
         }
       );
 
@@ -50,12 +48,14 @@ const CreateMainTest = () => {
 
   return (
     <AdminSidebarLayout>
-      <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-3xl font-semibold text-gray-800 mb-6">Create Main Test</h2>
+      <div className="max-w-3xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-4 sm:mb-6 text-center sm:text-left">
+          Create Main Test
+        </h2>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="testTitle" className="block text-lg font-medium text-gray-700">
+            <label htmlFor="testTitle" className="block text-base sm:text-lg font-medium text-gray-700">
               Test Title
             </label>
             <input
@@ -64,13 +64,13 @@ const CreateMainTest = () => {
               value={testTitle}
               onChange={(e) => setTestTitle(e.target.value)}
               required
-              className="w-full p-3 mt-2 border border-gray-300 rounded-md"
+              className="w-full p-2 sm:p-3 mt-2 border border-gray-300 rounded-md text-sm sm:text-base"
               placeholder="Enter test title"
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="description" className="block text-lg font-medium text-gray-700">
+            <label htmlFor="description" className="block text-base sm:text-lg font-medium text-gray-700">
               Description
             </label>
             <textarea
@@ -79,7 +79,7 @@ const CreateMainTest = () => {
               onChange={(e) => setDescription(e.target.value)}
               required
               rows="5"
-              className="w-full p-3 mt-2 border border-gray-300 rounded-md"
+              className="w-full p-2 sm:p-3 mt-2 border border-gray-300 rounded-md text-sm sm:text-base"
               placeholder="Enter test description"
             />
           </div>
@@ -90,7 +90,7 @@ const CreateMainTest = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-[#a14bf4] text-white font-semibold rounded-md hover:bg-[#9a42d7] disabled:opacity-50"
+            className="w-full py-2 sm:py-3 bg-[#a14bf4] text-white font-semibold rounded-md hover:bg-[#9a42d7] disabled:opacity-50 text-sm sm:text-base"
           >
             {loading ? "Creating..." : "Create Test"}
           </button>
