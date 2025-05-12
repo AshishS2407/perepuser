@@ -100,7 +100,7 @@ const CreateAdminPage = () => {
 
           <button
             type="submit"
-            className="w-full bg-[#a14bf4] text-white py-2 rounded hover:bg-[#8e3de3] text-sm sm:text-base"
+            className="w-full bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] text-white px-4 py-3 rounded-md hover:opacity-90 transition duration-300 text-sm sm:text-base"
           >
             Create Admin
           </button>
