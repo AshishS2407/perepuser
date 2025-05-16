@@ -44,9 +44,9 @@ const AdminSidebar = () => {
           <Link to="/admin/update-test" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Update Test
           </Link>
-          <Link to="/admin/main-test-list" className="flex items-center gap-3 hover:text-[#a14bf4]">
+          {/* <Link to="/admin/main-test-list" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Assign Sub Test
-          </Link>
+          </Link> */}
           <Link to="/admin/add-questions" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Add Questions
           </Link>
@@ -60,6 +60,9 @@ const AdminSidebar = () => {
           
           <Link to="/userlist" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> User List
+          </Link>
+          <Link to="/adminlist" className="flex items-center gap-3 hover:text-[#a14bf4]">
+            <IoBookSharp /> Admin List
           </Link>
           <Link to="/create-admin" className="flex items-center gap-3 hover:text-[#a14bf4]">
             <IoBookSharp /> Create Admin

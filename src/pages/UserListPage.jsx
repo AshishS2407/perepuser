@@ -15,7 +15,7 @@ const UserListPage = () => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('https://lumiprep10-production-e6da.up.railway.app/auth/users', {
+        const response = await axios.get('https://lumiprep10-production-e6da.up.railway.app/auth/usersonly', {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

@@ -1,23 +1,24 @@
-// src/pages/AddQuestionForm.jsx
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddQuestionForm = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // testId
   const token = localStorage.getItem('token');
 
   const [test, setTest] = useState(null);
+  const navigate = useNavigate();
   const [questionText, setQuestionText] = useState('');
+  const [questions, setQuestions] = useState([]); // ✅ Initialize as array
   const [options, setOptions] = useState([
     { text: '', isCorrect: false },
     { text: '', isCorrect: false },
     { text: '', isCorrect: false },
     { text: '', isCorrect: false },
   ]);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchTest = async () => {
@@ -25,16 +26,29 @@ const AddQuestionForm = () => {
         const res = await axios.get(`https://lumiprep10-production-e6da.up.railway.app/tests/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
           },
-          withCredentials: false,
         });
         setTest(res.data);
       } catch (err) {
-        setError('Failed to fetch test details');
+        toast.error('Failed to fetch test details');
       }
     };
+
+    const fetchQuestions = async () => {
+      try {
+        const res = await axios.get(`https://lumiprep10-production-e6da.up.railway.app/tests/${id}/questions`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setQuestions(res.data.questions || res.data); // ✅ Ensure it's an array
+      } catch (err) {
+        toast.error('Failed to fetch questions');
+      }
+    };
+
     fetchTest();
+    fetchQuestions();
   }, [id, token]);
 
   const handleOptionChange = (index, value) => {
@@ -53,7 +67,13 @@ const AddQuestionForm = () => {
 
   const handleSubmit = async () => {
     if (!questionText || options.some((opt) => opt.text.trim() === '')) {
-      setError('Question and all options are required.');
+      toast.error('Question and all options are required.');
+      return;
+    }
+
+    const isAnyCorrect = options.some((opt) => opt.isCorrect);
+    if (!isAnyCorrect) {
+      toast.error('Please select a correct answer.');
       return;
     }
 
@@ -64,12 +84,11 @@ const AddQuestionForm = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          withCredentials: false,
         }
       );
-      setMessage(res.data.message || 'Question added successfully');
+      toast.success(res.data.message || 'Question added successfully');
       setQuestionText('');
       setOptions([
         { text: '', isCorrect: false },
@@ -77,9 +96,63 @@ const AddQuestionForm = () => {
         { text: '', isCorrect: false },
         { text: '', isCorrect: false },
       ]);
+      // Refresh questions list
+      const updated = await axios.get(`https://lumiprep10-production-e6da.up.railway.app/tests/${id}/questions`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setQuestions(updated.data.questions || updated.data);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to add question');
+      toast.error(err.response?.data?.message || 'Failed to add question');
     }
+  };
+
+  const handleDelete = async (questionId) => {
+    try {
+      // Find the question to show in confirmation message
+      const questionToDelete = questions.find(q => q._id === questionId);
+      if (!questionToDelete) {
+        toast.error('Question not found');
+        return;
+      }
+  
+      // Confirmation dialog
+      const confirmDelete = window.confirm(
+        `Are you sure you want to delete this question?\n\n"${questionToDelete.questionText}"`
+      );
+  
+      if (!confirmDelete) return;
+  
+      // Show loading state
+      toast.info('Deleting question...', { autoClose: false });
+  
+      await axios.delete(
+        `https://lumiprep10-production-e6da.up.railway.app/tests/${id}/questions/${questionId}`,
+        {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+        }
+      );
+  
+      // Remove the loading toast and show success
+      toast.dismiss();
+      toast.success('Question deleted successfully');
+      
+      // Update state
+      setQuestions((prev) => prev.filter((q) => q._id !== questionId));
+    } catch (err) {
+      toast.dismiss();
+      toast.error(
+        err.response?.data?.message || 
+        'Failed to delete question. Please try again.'
+      );
+      console.error('Delete error:', err);
+    }
+  };
+
+  const handleEdit = (questionId) => {
+    navigate(`/tests/${id}/questions/${questionId}/edit`);
   };
 
   return (
@@ -93,9 +166,6 @@ const AddQuestionForm = () => {
         <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
           Add Question to: {test?.testTitle || 'Loading...'}
         </h1>
-
-        {error && <div className="text-red-600 mb-2 text-sm">{error}</div>}
-        {message && <div className="text-green-600 mb-2 text-sm">{message}</div>}
 
         <input
           type="text"
@@ -136,6 +206,48 @@ const AddQuestionForm = () => {
           Submit Question
         </button>
       </motion.div>
+
+      {/* List of Existing Questions */}
+      <div className="w-full max-w-3xl mt-10">
+        <h2 className="text-xl font-semibold mb-4">Existing Questions</h2>
+        {questions.length === 0 ? (
+          <p className="text-gray-500">No questions added yet.</p>
+        ) : (
+          questions.map((q, idx) => (
+            <div
+              key={q._id}
+              className="border p-4 mb-4 rounded-lg shadow-sm bg-white"
+            >
+              <h3 className="font-medium mb-2">
+                {idx + 1}. {q.questionText}
+              </h3>
+              <ul className="list-disc ml-6 mb-2">
+                {q.options.map((opt, i) => (
+                  <li key={i} className={opt.isCorrect ? 'text-green-600 font-semibold' : ''}>
+                    {opt.text}
+                  </li>
+                ))}
+              </ul>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => handleEdit(q._id)}
+                  className="text-blue-600 underline"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(q._id)}
+                  className="text-red-600 underline"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
