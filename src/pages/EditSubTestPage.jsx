@@ -1,3 +1,7 @@
+
+
+
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -177,7 +181,7 @@ const EditSubTestPage = () => {
 
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full sm:w-auto"
+            className="bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] hover:opacity-90 transition duration-300 text-white px-4 py-2 rounded hover:bg-blue-700 w-full "
           >
             Update Test
           </button>

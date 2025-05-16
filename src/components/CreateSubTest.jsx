@@ -129,18 +129,10 @@ const CreateSubTestPage = () => {
     }
   };
 
-  const handleEdit = (test) => {
-    setFormData({
-      companyName: test.companyName,
-      testTitle: test.testTitle,
-      description: test.description,
-      validTill: test.validTill?.substring(0, 10),
-      duration: test.duration,
-      parentTestIds: test.parentTestIds || [],
-    });
-    setEditId(test._id);
-    setEditMode(true);
+  const handleEdit = (testId) => {
+    navigate(`/admin/edit-sub-test/${testId}`);
   };
+  
 
   return (
     <AdminSidebarLayout>
@@ -267,12 +259,13 @@ const CreateSubTestPage = () => {
                 <p className="text-gray-600 mb-1">Duration: {test.duration} minutes</p>
                 <p className="text-gray-600 mb-2">Valid Till: {test.validTill?.substring(0, 10) || "N/A"}</p>
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEdit(test)}
-                    className="px-4 py-1 bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] hover:opacity-90 transition duration-300 text-white rounded hover:bg-blue-600 text-sm"
-                  >
-                    Edit
-                  </button>
+                <button
+  onClick={() => handleEdit(test._id)}
+  className="px-4 py-1 bg-gradient-to-r from-[#B23DEB] to-[#DE8FFF] hover:opacity-90 transition duration-300 text-white rounded hover:bg-blue-600 text-sm"
+>
+  Edit
+</button>
+
                   <button
                     onClick={() => handleDelete(test._id)}
                     className="px-4 py-1 bg-gradient-to-r from-red-500 to-red-700 hover:opacity-90 transition duration-300 text-white rounded text-sm"
