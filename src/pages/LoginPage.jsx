@@ -65,7 +65,8 @@ const LoginPage = () => {
       <nav className="flex justify-between items-center px-6 py-4 md:px-10">
         <h1 className="text-xl md:text-2xl font-bold">
           <span className="text-purple-500">Lumi</span>{" "}
-          <span className="text-gray-700">Prep</span>
+          <span className="text-gray-700">Prep Admin</span>
+
         </h1>
         {/* <div className="md:hidden">
           <button onClick={() => setMenuOpen(!menuOpen)}>
@@ -121,7 +122,7 @@ const LoginPage = () => {
             <div className="text-center">
               <h1 className="text-2xl md:text-3xl font-bold text-purple-600 mb-6">
                 <span className="text-purple-600">Lumi</span>{" "}
-                <span className="text-gray-700">Prep</span>
+                <span className="text-gray-700">Prep Admin</span>
               </h1>
             </div>
             <form onSubmit={handleLogin} className="space-y-4">

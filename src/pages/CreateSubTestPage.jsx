@@ -5,13 +5,11 @@ import CreateSubTest from '../components/CreateSubTest';
 
 const CreateSubTestPage = () => {
   return (
-    <AdminSidebarLayout>
       
         
 
           <CreateSubTest />
         
-    </AdminSidebarLayout>
   );
 };
 
