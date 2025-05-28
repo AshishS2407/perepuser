@@ -76,7 +76,7 @@ const AddMockQuestionPage = () => {
 
   const handleOptionChange = (index, field, value) => {
     const updated = [...options];
-    
+
     if (field === "isCorrect") {
       // For radio buttons, set all other options to false
       updated.forEach((opt, i) => {
@@ -85,7 +85,7 @@ const AddMockQuestionPage = () => {
     } else {
       updated[index][field] = value.trimStart();
     }
-    
+
     setOptions(updated);
   };
 
@@ -269,7 +269,9 @@ const AddMockQuestionPage = () => {
                 >
                   <div>
                     <p className="font-semibold">{q.questionText}</p>
-                    <small>Subtest: {q.subTestCategory || "N/A"}</small>
+                    <small>Subtest: {q.subTestCategory || "N/A"}</small><br />
+                    <small className="text-gray-600">Added by: {q.addedBy?.name || "Unknown"}</small>
+
                   </div>
                   <div className="flex gap-2">
                     <button
