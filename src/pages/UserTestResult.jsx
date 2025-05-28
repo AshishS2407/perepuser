@@ -15,7 +15,7 @@ const UserTestResults = ({ userId }) => {
       return;
     }
 
-    axios.get(`https://lumiprep10-production-e6da.up.railway.app/tests/user/${userId}/results`, {
+    axios.get(`http://localhost:3000/tests/user/${userId}/results`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -37,11 +37,13 @@ const UserTestResults = ({ userId }) => {
   return (
     <AdminSidebarLayout>
       <div className="p-4 overflow-x-auto w-full">
-        <h2 className="text-xl font-bold mb-4">User Test Results</h2>
+        <h2 className="text-xl font-bold mb-4">Test Results</h2>
         <div className="w-full overflow-x-auto">
           <table className="w-full text-sm border border-gray-300">
             <thead className="bg-gray-200">
               <tr>
+                                <th className="border px-2 py-2 whitespace-nowrap">Main Test Title</th>
+
                 <th className="border px-2 py-2 whitespace-nowrap">Test Title</th>
                 <th className="border px-2 py-2 whitespace-nowrap">Description</th>
                 <th className="border px-2 py-2 whitespace-nowrap">Submitted At</th>
@@ -55,6 +57,11 @@ const UserTestResults = ({ userId }) => {
               {results.map((result, i) => (
                 <React.Fragment key={result._id}>
                   <tr className="bg-white hover:bg-gray-50">
+                    <td className="border px-2 py-2">
+                      {Array.isArray(result.parentTests) && result.parentTests.length > 0
+                        ? result.parentTests.map((p) => p.testTitle).join(', ')
+                        : '—'}
+                    </td>
                     <td className="border px-2 py-2">{result.testTitle}</td>
                     <td className="border px-2 py-2">{result.testDescription}</td>
                     <td className="border px-2 py-2 whitespace-nowrap">{new Date(result.submittedAt).toLocaleString()}</td>
@@ -70,7 +77,7 @@ const UserTestResults = ({ userId }) => {
                   </tr>
                   {expandedRows[i] && (
                     <tr>
-                      <td colSpan="7" className="border px-2 py-2 bg-gray-50">
+                      <td colSpan="8" className="border px-2 py-2 bg-gray-50">
                         <div className="overflow-x-auto">
                           <table className="w-full text-xs text-left border border-gray-200">
                             <thead className="bg-gray-100">

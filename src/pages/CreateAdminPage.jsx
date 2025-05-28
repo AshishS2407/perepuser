@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminSidebarLayout from "../components/AdminSidebarLayout";
 
 const CreateAdminPage = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("admin");
@@ -30,8 +31,8 @@ const CreateAdminPage = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://lumiprep10-production-e6da.up.railway.app/auth/create-admin",
-        { email, password, role },
+        "http://localhost:3000/auth/create-admin",
+        { name, email, password, role },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -40,6 +41,7 @@ const CreateAdminPage = () => {
         }
       );
       setMessageData(res.data);
+      setName("");
       setEmail("");
       setPassword("");
       setRole("admin");
@@ -71,6 +73,14 @@ const CreateAdminPage = () => {
         <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">Create New Admin</h2>
 
         <form onSubmit={handleCreateAdmin} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Full Name"
+            className="w-full px-4 py-2 border border-gray-300 rounded text-sm sm:text-base"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
           <input
             type="email"
             placeholder="Email"
@@ -116,7 +126,7 @@ const CreateAdminPage = () => {
                   {role.charAt(0).toUpperCase() + role.slice(1)} Created Successfully
                 </p>
                 <div className="space-y-2">
-                  {["email", "role"].map((field) => (
+                  {["name", "email", "role"].map((field) => (
                     <div
                       key={field}
                       className="flex items-center justify-between border px-3 py-2 rounded flex-wrap sm:flex-nowrap"

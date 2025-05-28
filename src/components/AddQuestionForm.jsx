@@ -207,45 +207,54 @@ const AddQuestionForm = () => {
         </button>
       </motion.div>
 
-      {/* List of Existing Questions */}
-      <div className="w-full max-w-3xl mt-10">
-        <h2 className="text-xl font-semibold mb-4">Existing Questions</h2>
-        {questions.length === 0 ? (
-          <p className="text-gray-500">No questions added yet.</p>
-        ) : (
-          questions.map((q, idx) => (
-            <div
-              key={q._id}
-              className="border p-4 mb-4 rounded-lg shadow-sm bg-white"
+{/* List of Existing Questions */}
+<div className="w-full max-w-3xl mt-10">
+  <h2 className="text-xl font-semibold mb-4">Existing Questions</h2>
+  {questions.length === 0 ? (
+    <p className="text-gray-500">No questions added yet.</p>
+  ) : (
+    questions.map((q, idx) => (
+      <div key={q._id} className="border p-4 mb-4 rounded-lg shadow-sm bg-white">
+        <div className="flex justify-between items-start mb-1">
+          <h3 className="font-medium text-lg">
+            {idx + 1}. {q.questionText}
+          </h3>
+          {q.addedBy && (
+            <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
+              Added by: {q.addedBy.name || 'Admin'}
+            </span>
+          )}
+        </div>
+        
+        <ul className="list-disc ml-6 mb-3 mt-2">
+          {q.options.map((opt, i) => (
+            <li 
+              key={i} 
+              className={opt.isCorrect ? 'text-green-600 font-semibold' : ''}
             >
-              <h3 className="font-medium mb-2">
-                {idx + 1}. {q.questionText}
-              </h3>
-              <ul className="list-disc ml-6 mb-2">
-                {q.options.map((opt, i) => (
-                  <li key={i} className={opt.isCorrect ? 'text-green-600 font-semibold' : ''}>
-                    {opt.text}
-                  </li>
-                ))}
-              </ul>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => handleEdit(q._id)}
-                  className="text-blue-600 underline"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(q._id)}
-                  className="text-red-600 underline"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))
-        )}
+              {opt.text}
+            </li>
+          ))}
+        </ul>
+        
+        <div className="flex gap-3 mt-2">
+          <button
+            onClick={() => handleEdit(q._id)}
+            className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => handleDelete(q._id)}
+            className="text-red-600 hover:text-red-800 text-sm font-medium"
+          >
+            Delete
+          </button>
+        </div>
       </div>
+    ))
+  )}
+</div>
 
       <ToastContainer position="top-right" autoClose={3000} />
     </div>

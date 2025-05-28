@@ -20,6 +20,9 @@ import EditMainTest from "./pages/EditMainTest";
 import EditSubTestPage from "./pages/EditSubTestPage";
 import EditQuestionForm from "./pages/EditQuestionForm";
 import AdminListPage from "./pages/AdminListPage";
+import MockTestManager from "./pages/MockTest";
+import AddMockQuestionPage from "./pages/AddMockQuestionPage";
+import EditMockQuestionPage from "./pages/EditMockQuestionPage";
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -31,9 +34,9 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/tests/update/:testId" element={<UpdateTestPage />} />
         <Route path="/admin/create-test" element={<CreateSubTestPage />} />
-        <Route path="/admin/update-test" element={<FetchTestPage/>} />
-        <Route path="/admin/add-explanations" element={<AddExplanationPage/>} />
-        <Route path="/admin/add-questions" element={<AddQuestionPage/>} />
+        <Route path="/admin/update-test" element={<FetchTestPage />} />
+        <Route path="/admin/add-explanations" element={<AddExplanationPage />} />
+        <Route path="/admin/add-questions" element={<AddQuestionPage />} />
         <Route path="/explanation/:testId" element={<ExplanationPage />} />
         <Route path="/add-question/:id" element={<AddQuestionFormPage />} />
         <Route path="/admin/create-user" element={<CreateUserPage />} />
@@ -43,10 +46,14 @@ function App() {
         <Route path="/userlist" element={<UserListPage />} />
         <Route path="/create-admin" element={<CreateAdminPage />} />
         <Route path="/users/:userId/results" element={<UserTestResultsPage />} />
-        <Route path="/edit-main-test/:id" element={<EditMainTest/>} /> 
-        <Route path="/admin/edit-sub-test/:id" element={<EditSubTestPage/>} />
+        <Route path="/edit-main-test/:id" element={<EditMainTest />} />
+        <Route path="/admin/edit-sub-test/:id" element={<EditSubTestPage />} />
         <Route path="/tests/:testId/questions/:questionId/edit" element={<EditQuestionForm />} />
         <Route path="/adminlist" element={<AdminListPage />} />
+        <Route path="/create-mock" element={<MockTestManager />} />
+        <Route path="/admin/mocktests/:mockTestId/add-question" element={<AddMockQuestionPage />} />
+<Route path="/admin/mockquestions/edit/:questionId" element={<EditMockQuestionPage />} />
+
 
       </Routes>
     </Router>
