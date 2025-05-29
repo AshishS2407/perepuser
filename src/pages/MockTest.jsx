@@ -84,7 +84,7 @@ const MockTestManager = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this mock test?")) return;
     try {
-      await axios.delete(`https://lumiprep10-production-e6da.up.railway.applumiprep10-production-e6da.up.railway.app/mock/${id}`, {
+      await axios.delete(`https://lumiprep10-production-e6da.up.railway.app/mock/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Mock test deleted successfully");
