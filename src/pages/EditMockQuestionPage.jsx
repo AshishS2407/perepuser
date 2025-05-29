@@ -6,7 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const EditMockQuestionPage = () => {
-  const { questionId } = useParams();
+const { questionId, mockTestId } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -129,7 +129,7 @@ const EditMockQuestionPage = () => {
 
       toast.success("Question updated successfully");
       setTimeout(() => {
-        navigate(`/admin/mockquestions/${options[0]._id ? options[0]._id : ""}`);
+        navigate(`/create-mock`);
       }, 1500);
     } catch (err) {
       console.error(err);
