@@ -1,4 +1,3 @@
-// components/QuestionCardSelectable.js
 
 const QuestionCardSelectable = ({
   question,

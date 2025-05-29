@@ -26,7 +26,7 @@ const EditMockQuestionPage = () => {
     const fetchQuestion = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/mock/questions/${questionId}`,
+          `https://lumiprep10-production-e6da.up.railway.app/mock/questions/${questionId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -56,7 +56,7 @@ const EditMockQuestionPage = () => {
     // Fetch subtests for dropdown
     const fetchSubTests = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/tests/sub-tests", {
+        const res = await axios.get("https://lumiprep10-production-e6da.up.railway.app/tests/sub-tests", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (Array.isArray(res.data)) {
@@ -112,7 +112,7 @@ const EditMockQuestionPage = () => {
 
     try {
       await axios.put(
-        `http://localhost:3000/mock/questions/${questionId}`,
+        `https://lumiprep10-production-e6da.up.railway.app/mock/questions/${questionId}`,
         {
           questionText,
           options,

@@ -26,7 +26,7 @@ const AddMockQuestionPage = () => {
   useEffect(() => {
     const fetchSubTests = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/tests/sub-tests", {
+        const res = await axios.get("https://lumiprep10-production-e6da.up.railway.app/tests/sub-tests", {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("SubTests response:", res.data);
@@ -50,7 +50,7 @@ const AddMockQuestionPage = () => {
     const fetchQuestions = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/mock/${mockTestId}/questions`,
+          `https://lumiprep10-production-e6da.up.railway.app/mock/${mockTestId}/questions`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -111,7 +111,7 @@ const AddMockQuestionPage = () => {
 
     try {
       const res = await axios.post(
-        `http://localhost:3000/mock/${mockTestId}/add-question`,
+        `https://lumiprep10-production-e6da.up.railway.app/mock/${mockTestId}/add-question`,
         { questionText, options, explanation, subTestCategory },
         {
           headers: {
@@ -137,7 +137,7 @@ const AddMockQuestionPage = () => {
       } else {
         // If no question returned, refetch list
         const listRes = await axios.get(
-          `http://localhost:3000/mock/${mockTestId}/questions`,
+          `https://lumiprep10-production-e6da.up.railway.app/mock/${mockTestId}/questions`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (Array.isArray(listRes.data)) {
@@ -156,7 +156,7 @@ const AddMockQuestionPage = () => {
   const handleDelete = async (questionId) => {
     if (!window.confirm("Are you sure you want to delete this question?")) return;
     try {
-      await axios.delete(`http://localhost:3000/mock/questions/${questionId}`, {
+      await axios.delete(`https://lumiprep10-production-e6da.up.railway.app/mock/questions/${questionId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Question deleted");

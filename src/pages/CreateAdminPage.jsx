@@ -15,7 +15,7 @@ const CreateAdminPage = () => {
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/auth/me", {
+        const res = await axios.get("https://lumiprep10-production-e6da.up.railway.app/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserRole(res.data.role);
@@ -31,7 +31,7 @@ const CreateAdminPage = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:3000/auth/create-admin",
+        "https://lumiprep10-production-e6da.up.railway.app/auth/create-admin",
         { name, email, password, role },
         {
           headers: {

@@ -23,6 +23,7 @@ import AdminListPage from "./pages/AdminListPage";
 import MockTestManager from "./pages/MockTest";
 import AddMockQuestionPage from "./pages/AddMockQuestionPage";
 import EditMockQuestionPage from "./pages/EditMockQuestionPage";
+import EditMockTest from "./pages/EditMockTest";
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -53,6 +54,7 @@ function App() {
         <Route path="/create-mock" element={<MockTestManager />} />
         <Route path="/admin/mocktests/:mockTestId/add-question" element={<AddMockQuestionPage />} />
 <Route path="/admin/mockquestions/edit/:questionId" element={<EditMockQuestionPage />} />
+<Route path="/admin/mocktests/:testId/edit" element={<EditMockTest />} />
 
 
       </Routes>

@@ -1,4 +1,3 @@
-// ResultQuestionCard.js
 const ResultQuestionCard = ({ question, index, detail, getOptionStyle }) => {
   return (
     <div className="mb-6 p-6 bg-white rounded-2xl shadow border border-gray-200">

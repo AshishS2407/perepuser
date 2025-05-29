@@ -17,7 +17,7 @@ const MockTestManager = () => {
 
   const fetchTests = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/mock/get-mocks", {
+      const res = await axios.get("https://lumiprep10-production-e6da.up.railway.app/mock/get-mocks", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTests(res.data || []);
@@ -48,14 +48,14 @@ const MockTestManager = () => {
     try {
       if (editingTestId) {
         await axios.put(
-          `http://localhost:3000/mock/${editingTestId}`,
+          `https://lumiprep10-production-e6da.up.railway.app/mock/${editingTestId}`,
           { name, description },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         toast.success("Mock test updated successfully");
       } else {
         await axios.post(
-          "http://localhost:3000/mock/create-mocktest",
+          "https://lumiprep10-production-e6da.up.railway.app/mock/create-mocktest",
           { name, description },
           {
             headers: {
@@ -77,15 +77,14 @@ const MockTestManager = () => {
   };
 
   const handleEdit = (test) => {
-    setEditingTestId(test._id);
-    setName(test.name);
-    setDescription(test.description);
-  };
+  navigate(`/admin/mocktests/${test._id}/edit`);
+};
+
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this mock test?")) return;
     try {
-      await axios.delete(`http://localhost:3000/mock/${id}`, {
+      await axios.delete(`https://lumiprep10-production-e6da.up.railway.applumiprep10-production-e6da.up.railway.app/mock/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Mock test deleted successfully");
